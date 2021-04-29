@@ -2,6 +2,7 @@ import React from 'react';
 import ReviewList from './ReviewList.jsx';
 import ReviewStats from './ReviewStats.jsx';
 import AddReview from './AddReview.jsx';
+import {ReviewStatsContainer} from '../../containers/reviews/ReviewsContainer.js'
 
 class Reviews extends React.Component  {
 
@@ -25,7 +26,7 @@ class Reviews extends React.Component  {
      <div className = 'reviews-content'>
         <div className='reviews-ratings'>
 
-          <ReviewStats reviews = {this.props.reviews} stats = {this.props.reviewMeta} updated = {false} getReviews = {{get: this.props.handleGetReviews, sort: this.props.reviews.sort, length: this.props.reviews.count, filter: this.props.reviews.filter}} />
+          <ReviewStatsContainer  />
 
         </div>
 

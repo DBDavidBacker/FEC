@@ -9,12 +9,7 @@ class ReviewStats extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      widths: {},
-      id: this.props.stats.product_id,
-      average: undefined,
-      updated: false
-    };
+
     this.averageFinder = this.averageFinder.bind(this);
     this.widthFinder = this.widthFinder.bind(this);
     this.resetFilters = this.resetFilters.bind(this);
@@ -27,8 +22,8 @@ clickLogger(input) {
   resetFilters() {
 
     document.getElementById('reviews-reset-filters').style.display = 'none';
-    this.clickLogger(this.props.stats.product_id);
-    this.props.getReviews.get(this.props.stats.product_id, this.props.reviews.count , this.props.getReviews.sort);
+    this.clickLogger(this.props.reviewMeta.product_id);
+    this.props.handleGetReviews(this.props.reviewMeta.product_id, this.props.reviews.count , this.props.reviews.sort);
   }
 
   widthFinder(value) {
@@ -36,16 +31,16 @@ clickLogger(input) {
     var total = 0;
 
 
-    for (var key in this.props.stats.ratings) {
+    for (var key in this.props.reviewMeta.ratings) {
 
-      total += parseInt(this.props.stats.ratings[key]);
+      total += parseInt(this.props.reviewMeta.ratings[key]);
 
     }
 
-    if (this.props.stats.ratings[value] !== undefined) {
+    if (this.props.reviewMeta.ratings[value] !== undefined) {
 
 
-      return (this.props.stats.ratings[value] * 7 / total);
+      return (this.props.reviewMeta.ratings[value] * 7 / total);
 
     } else {
 
@@ -65,9 +60,9 @@ averageFinder() {
   var total = 0;
   var keys = []
 
-  for (var key in this.props.stats.ratings) {
-    average += parseInt(key) * this.props.stats.ratings[key];
-    total += parseInt(this.props.stats.ratings[key]);
+  for (var key in this.props.reviewMeta.ratings) {
+    average += parseInt(key) * this.props.reviewMeta.ratings[key];
+    total += parseInt(this.props.reviewMeta.ratings[key]);
 
   }
 
@@ -88,19 +83,19 @@ render(){
 
   var bars;
 
-  if ( Object.keys(this.props.stats).length !== 0) {
+  if ( Object.keys(this.props.reviewMeta).length !== 0) {
 
 
 
       // if (Object.keys(this.state.widths).length === 5) {
 
         bars =  ( <div>
-        <ReviewRatingsBar getReviews = {this.props.getReviews}  stats = {this.props.stats} value = {0} ratings = {this.props.stats.ratings} width = {this.widthFinder('0')}  />
-        <ReviewRatingsBar getReviews = {this.props.getReviews}  stats = {this.props.stats} value = {1} ratings = {this.props.stats.ratings} width = {this.widthFinder('1')}  />
-        <ReviewRatingsBar getReviews = {this.props.getReviews}  stats = {this.props.stats} value = {2} ratings = {this.props.stats.ratings} width = {this.widthFinder('2')} />
-        <ReviewRatingsBar getReviews = {this.props.getReviews} stats = {this.props.stats} value = {3} ratings = {this.props.stats.ratings} width = {this.widthFinder('3')}  />
-        <ReviewRatingsBar getReviews = {this.props.getReviews}  stats = {this.props.stats} value = {4} ratings = {this.props.stats.ratings} width = {this.widthFinder('4')}  />
-        <ReviewRatingsBar getReviews = {this.props.getReviews}  stats = {this.props.stats} value = {5} ratings = {this.props.stats.ratings} width = {this.widthFinder('5')} />
+        <ReviewRatingsBar getReviews = {this.props.handleGetReviews}  stats = {this.props.reviewMeta} value = {0} ratings = {this.props.reviewMeta.ratings} width = {this.widthFinder('0')}  />
+        <ReviewRatingsBar getReviews = {this.props.handleGetReviews}  stats = {this.props.reviewMeta} value = {1} ratings = {this.props.reviewMeta.ratings} width = {this.widthFinder('1')}  />
+        <ReviewRatingsBar getReviews = {this.props.handleGetReviews}  stats = {this.props.reviewMeta} value = {2} ratings = {this.props.reviewMeta.ratings} width = {this.widthFinder('2')} />
+        <ReviewRatingsBar getReviews = {this.props.handleGetReviews} stats = {this.props.reviewMeta} value = {3} ratings = {this.props.reviewMeta.ratings} width = {this.widthFinder('3')}  />
+        <ReviewRatingsBar getReviews = {this.props.handleGetReviews}  stats = {this.props.reviewMeta} value = {4} ratings = {this.props.reviewMeta.ratings} width = {this.widthFinder('4')}  />
+        <ReviewRatingsBar getReviews = {this.props.handleGetReviews}  stats = {this.props.reviewMeta} value = {5} ratings = {this.props.reviewMeta.ratings} width = {this.widthFinder('5')} />
         </div> )
       // } else {
       //   bars = <p>hi</p>
@@ -117,10 +112,10 @@ render(){
         <div id = 'fill'></div>
       </div> */}
       {bars}
-      <button id = 'reviews-reset-filters' style = {{display: (this.props.getReviews.filter.length > 0) ? 'inline': 'none'}} onClick = { () => {this.resetFilters()}}>Reset Filters</button>
-      <p className = 'reviews-recommend-percent'>{Math.round((parseInt(this.props.stats.recommended[true]) * 100) /(parseInt(this.props.stats.recommended[true]) + parseInt(this.props.stats.recommended[false])))}% of reviews recommend this product.</p>
+      <button id = 'reviews-reset-filters' style = {{display: (this.props.reviews.filter.length > 0) ? 'inline': 'none'}} onClick = { () => {this.resetFilters()}}>Reset Filters</button>
+      <p className = 'reviews-recommend-percent'>{Math.round((parseInt(this.props.reviewMeta.recommended[true]) * 100) /(parseInt(this.props.reviewMeta.recommended[true]) + parseInt(this.props.reviewMeta.recommended[false])))}% of reviews recommend this product.</p>
 
-      {Object.keys(this.props.stats.characteristics).map((element) => <ReviewCharacteristics type = {element} data = {this.props.stats.characteristics[element]} />)}
+      {Object.keys(this.props.reviewMeta.characteristics).map((element) => <ReviewCharacteristics type = {element} data = {this.props.reviewMeta.characteristics[element]} />)}
     </div>
 
 

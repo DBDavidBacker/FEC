@@ -3,6 +3,7 @@ import fetchReviews from '../../actions/reviews/fetchReviews';
 import addReview from '../../actions/reviews/addReview';
 import fetchReviewMeta from '../../actions/reviews/fetchReviewMeta';
 import Reviews from '../../components/reviews';
+import ReviewStats from '../../components/reviews/ReviewStats.jsx';
 import sendReviewHelpfulLog from '../../actions/reviews/sendReviewHelpfulLog';
 
 
@@ -34,6 +35,8 @@ var mapDispatchToProps = (dispatch) => ({
   }
 });
 
-var ReviewsContainer = connect(mapStoreToProps, mapDispatchToProps)(Reviews);
+const ReviewsContainer = connect(mapStoreToProps, mapDispatchToProps)(Reviews);
+const ReviewStatsContainer = connect(mapStoreToProps, mapDispatchToProps)(ReviewStats);
 
-export default ReviewsContainer;
+
+export {ReviewsContainer, ReviewStatsContainer};
