@@ -172,5 +172,13 @@ This form follows the business requirements doc's guidelines, allowing users to 
 ![](documentation/reviews/review-form-2.gif)
 
 
+### Future Review Optimizations
+
+As of now, a lot of the code for the review section, while functional, could be cleaner and more optimized. I am currently in the process of...
+- Refactoring many of the prop drills into Redux containers
+- Refactoring the class components into functional components that use React Hooks
+
+
+
 
 
